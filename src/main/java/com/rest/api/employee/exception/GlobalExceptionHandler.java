@@ -15,9 +15,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadRequest.class)
     public ResponseEntity<?> badRequestException(BadRequest ex, WebRequest request) {
          ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {
     	ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI().toString());
